@@ -6,6 +6,7 @@ var gulp = require('gulp'),
     stylish = require('jshint-stylish'),
     uglify = require('gulp-uglify'),
     usemin = require('gulp-usemin'),
+    uncss = require('gulp-uncss'),
     imagemin = require('gulp-imagemin'),
     rename = require('gulp-rename'),
     concat = require('gulp-concat'),
@@ -31,8 +32,10 @@ gulp.task('clean', function() {
 gulp.task('usemin',['jshint'], function () {
   return gulp.src('./app/**/*.html')
       .pipe(usemin({
-        css:[minifycss(),rev()],
-        js: [uglify(),rev()]
+        css:[uncss({
+                  html: ['app/index.html']
+              }), minifycss()],
+        js: [uglify()]
       }))
       .pipe(gulp.dest('../public/'));
 });
